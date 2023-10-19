@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 class Register extends Component {
   constructor(props) {
@@ -32,12 +32,11 @@ class Register extends Component {
     register = await register.json()
     if (register.message) {
       alert(register.message)
-    }else if (register.error) {
+    } else if (register.error) {
       alert(register.error)
-    } else if(register.token){
-      localStorage.setItem('token',register.token)
-      alert(register.token)
-      // this.setState({ redirect: true })
+    } else if (register.token) {
+      localStorage.setItem('token', register.token)
+      this.setState({ redirect: true })
     }
   };
 
@@ -46,19 +45,24 @@ class Register extends Component {
       showPassword: !prevState.showPassword,
     }));
   };
-
+  async componentDidMount() {
+    if (localStorage.getItem('token')) {
+      this.setState({ redirect: true })
+    }
+  }
 
   render() {
     if (this.state.redirect) {
-      return <Navigate to="/" />;
+      return <Navigate to="/profile" />;
     }
     return (
-      <div className="container d-flex justify-content-center align-items-center flex-column">
+      <div className="container d-flex justify-content-center align-items-center flex-column" style={{ background: 'linear-gradient(135deg, #cc00ff, #aa00ff)', width: '100vw', height: '100vh' }}>
         <h2 className="mt-4">Register</h2>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group mt-3">
             <label htmlFor="username">Pick a username</label>
             <input
+              style={{ border: 'none', borderBottom: '1px solid #000', backgroundColor: 'rgba(255,255,255,0.7)', width: '200px' }}
               type="text"
               placeholder='...'
               className="form-control"
@@ -72,6 +76,7 @@ class Register extends Component {
           <div className="form-group mt-3">
             <label htmlFor="email">Enter your email</label>
             <input
+              style={{ border: 'none', borderBottom: '1px solid #000', backgroundColor: 'rgba(255,255,255,0.7)', width: '200px' }}
               type="email"
               className="form-control"
               id="email"
@@ -86,6 +91,7 @@ class Register extends Component {
             <label htmlFor="password">Password</label>
             <div className="input-group">
               <input
+                style={{ border: 'none', borderBottom: '1px solid #000', backgroundColor: 'rgba(255,255,255,0.7)', width: '200px' }}
                 type={this.state.showPassword ? 'text' : 'password'}
                 className="form-control"
                 id="password"
@@ -97,7 +103,7 @@ class Register extends Component {
               />
               <div className="input-group-append">
                 <button
-                  className="btn btn-outline-secondary"
+                  className="log-reg-button btn btn-outline-secondary"
                   type="button"
                   onClick={this.togglePasswordVisibility}
                 >
@@ -106,10 +112,13 @@ class Register extends Component {
               </div>
             </div>
           </div>
-          <button type="submit" className="btn btn-primary mt-3" onClick={this.handleSubmit}>
+          <button type="submit" className="log-reg-button btn mt-3" onClick={this.handleSubmit}>
             Register
           </button>
         </form>
+        <div style={{ fontWeight: 700, color: 'white' }}>
+          Already a user?<Link to='/login' style={{ color: 'white', textDecoration: 'underline' }}>Login here</Link>
+        </div>
       </div>
     );
   }

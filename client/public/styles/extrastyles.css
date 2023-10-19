@@ -1,0 +1,36 @@
+body{
+    background-image: url('../assets/3d-cubes-colorful-geometric-patterns-4010x2480-906.jpg');
+    background-size: cover;
+}
+
+.create-room, .matchmake{
+    border-radius: 4%;
+    border: 4px solid black;
+    background-color: purple;
+    box-shadow: 0 0 10px rgba(165, 4, 245, 0.5);
+    height: 100px;
+    font-size: large;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.create-room:hover, .matchmake:hover{
+    border: 4px solid white;
+    color: white;
+}
+
+.profile-options{
+    border-radius: 4%;
+    border: 4px solid black;
+    background-color: purple;
+    box-shadow: 0 0 10px rgba(165, 4, 245, 0.5);
+    height: 100px;
+    font-size: large;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    color: white;
+}

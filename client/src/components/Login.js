@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 class Login extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class Login extends Component {
       [e.target.name]: e.target.value,
     });
   };
-  
+
   handleSubmit = async (e) => {
     console.log(this.state)
     e.preventDefault();
@@ -31,12 +31,11 @@ class Login extends Component {
     login = await login.json()
     if (login.message) {
       alert(login.message)
-    }else if (login.error) {
+    } else if (login.error) {
       alert(login.error)
-    } else if(login.token){
-      localStorage.setItem('token',login.token)
-      alert(login.token)
-      // this.setState({ redirect: true })
+    } else if (login.token) {
+      localStorage.setItem('token', login.token)
+      this.setState({ redirect: true })
     }
   };
 
@@ -45,19 +44,24 @@ class Login extends Component {
       showPassword: !prevState.showPassword,
     }));
   };
-
+  async componentDidMount() {
+    if (localStorage.getItem('token')) {
+      this.setState({ redirect: true })
+    }
+  }
 
   render() {
     if (this.state.redirect) {
-      return <Navigate to="/profile"/>;
+      return <Navigate to="/profile" />;
     }
     return (
-      <div className="container d-flex justify-content-center align-items-center flex-column">
+      <div className="container d-flex justify-content-center align-items-center flex-column" style={{ background: 'linear-gradient(135deg, #cc00ff, #aa00ff)', width: '100vw', height: '100vh' }}>
         <h2 className="mt-4">Login</h2>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group mt-3">
             <label htmlFor="email">Enter your email</label>
             <input
+              style={{ border: 'none', borderBottom: '1px solid #000', backgroundColor: 'rgba(255,255,255,0.7)',width: '200px'}}
               type="email"
               className="form-control"
               id="email"
@@ -72,6 +76,7 @@ class Login extends Component {
             <label htmlFor="password">Enter your password</label>
             <div className="input-group">
               <input
+                style={{ border: 'none', borderBottom: '1px solid #000', backgroundColor: 'rgba(255,255,255,0.7)',width: '200px'}}
                 type={this.state.showPassword ? 'text' : 'password'}
                 className="form-control"
                 id="password"
@@ -83,7 +88,7 @@ class Login extends Component {
               />
               <div className="input-group-append">
                 <button
-                  className="btn btn-outline-secondary"
+                  className="log-reg-button btn btn-outline-secondary"
                   type="button"
                   onClick={this.togglePasswordVisibility}
                 >
@@ -92,10 +97,13 @@ class Login extends Component {
               </div>
             </div>
           </div>
-          <button type="submit" className="btn btn-primary mt-3" onClick={this.handleSubmit}>
+          <button type="submit" className="log-reg-button btn mt-3" onClick={this.handleSubmit}>
             Login
           </button>
         </form>
+        <div style={{ fontWeight: 700, color: 'white' }}>
+          New to darc?  <Link to='/register' style={{ color: 'white', textDecoration: 'underline' }}>Signup here</Link>
+        </div>
       </div>
     );
   }
