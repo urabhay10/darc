@@ -5,7 +5,7 @@ export default class YourTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      yourTable: [{}, {}, {}, {}, {}]
+
     };
   }
   render() {
@@ -18,9 +18,9 @@ export default class YourTable extends Component {
         justifyContent: 'space-around',
         alignItems: 'center',
       }}>
-        {this.state.yourTable.map((card) => (
-          <div className="card" key={this.state.yourTable.indexOf(card)}>
-            <Card placeholder text='king'/>
+        {this.props.yourTable.map((card) => (
+          <div className="card" key={this.props.yourTable.indexOf(card)}>
+            <Card placeholder={card.placeholder} text={card.placetype}/>
           </div>
         ))}
       </div>

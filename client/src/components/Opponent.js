@@ -14,7 +14,7 @@ export default class Opponent extends Component {
         display: 'flex',
         alignItems: 'flex-end',
         justifyContent: 'center',
-      }}>{this.props.username}</div>
+      }}>{this.props.username ? this.props.username : <div className='loader'></div>}</div>
     )
   }
 }

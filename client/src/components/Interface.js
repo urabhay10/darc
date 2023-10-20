@@ -9,32 +9,86 @@ import You from './You'
 import Opponent from './Opponent'
 
 export default class Interface extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            copytext: 'Click to copy',
+        };
+    }
     render() {
-        return (
-            <div style={{
-                height: '466px',
-                width: '658px',
-                margin: 'auto',
-                border: '1px solid white',
-                backgroundColor: 'blue',
-                display: 'flex',
-                flexWrap: 'wrap',
-                alignItems: 'flex-start',
-                position: 'absolute',
-                top: '100px',
-                left: '440px',
-            }}>
-                <OpponentTable/>
-                <Location/>
-                <YourTable/>
-                <div>
-                <GameSettings/>
-                <Draw/>
-                </div>
-                <You username='abhay'/>
-                <Hand/>
-                <Opponent username='dev'/>
-            </div>
-        )
+        if (!this.props.room.roomid) {
+            return (
+                <>
+                    <div style={{
+                        height: '466px',
+                        width: '658px',
+                        margin: 'auto',
+                        border: '1px solid white',
+                        backgroundColor: 'blue',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        alignItems: 'flex-start',
+                        position: 'absolute',
+                        top: '100px',
+                        left: '440px',
+                    }}>
+                        <OpponentTable opponentTable={[]} />
+                        <Location yourstrength={0} opponentstrength={0} />
+                        <YourTable yourTable={[]} />
+                        <div>
+                            <GameSettings />
+                            <Draw />
+                        </div>
+                        <You username={this.props.username} />
+                        <Hand hand={[]} pickcard={this.props.pickcard} />
+                        <Opponent username={this.props.opponentname} />
+                    </div>
+                    <div style={{
+                        top: '83vh',
+                        position: 'fixed',
+                        fontSize: '24px',
+                        color: 'white',
+                        textAlign: 'center',
+                        left: "47%",
+                        width: '100px'
+                    }} onClick={() => { navigator.clipboard.writeText(this.props.room.roomid); this.setState({ copytext: 'Copied' }) }}>
+                        {this.props.room.roomid}
+                        <div style={{
+                            fontSize: '16px'
+                        }}>{this.state.copytext}</div>
+                    </div>
+                </>
+            )
+        } else {
+            console.log(this.props.room)
+            return (
+                <>
+                    <div style={{
+                        height: '466px',
+                        width: '658px',
+                        margin: 'auto',
+                        border: '1px solid white',
+                        backgroundColor: 'blue',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        alignItems: 'flex-start',
+                        position: 'absolute',
+                        top: '100px',
+                        left: '440px',
+                    }}>
+                        <OpponentTable opponentTable={this.props.room.players.names[0] === this.props.username ? this.props.room.gamestate.table.guest : this.props.room.gamestate.table.host} />
+                        <Location yourstrength={this.props.room.players.names[0] === this.props.username ? this.props.room.gamestate.location.host.strength : this.props.room.gamestate.location.guest.strength} opponentstrength={this.props.room.players.names[0] === this.props.username ? this.props.room.gamestate.location.guest.strength : this.props.room.gamestate.location.host.strength} />
+                        <YourTable yourTable={this.props.room.players.names[0] !== this.props.username ? this.props.room.gamestate.table.guest : this.props.room.gamestate.table.host} />
+                        <div>
+                            <GameSettings />
+                            <Draw />
+                        </div>
+                        <You username={this.props.username} />
+                        <Hand hand={this.props.room.players.names[0] === this.props.username ? this.props.room.gamestate.hand.host : this.props.room.gamestate.hand.guest} pickcard={this.props.pickcard} />
+                        <Opponent username={this.props.opponentname} />
+                    </div>
+                </>
+            )
+        }
     }
 }

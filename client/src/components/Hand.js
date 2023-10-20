@@ -5,7 +5,7 @@ export default class Hand extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          hand:[{},{},{},{},{},{}]
+          
         };
       }
     render() {
@@ -18,9 +18,9 @@ export default class Hand extends Component {
                 alignItems: 'center',
                 justifyContent: 'space-around',
             }}>
-                {this.state.hand.map((card) => (
-                        <div className="card" key={this.state.hand.indexOf(card)}>
-                            <Card />
+                {this.props.hand.map((card) => (
+                        <div className="card" key={this.props.hand.indexOf(card)} onClick={()=>{console.log('picked');this.props.pickcard(card);}}>
+                            <Card/>
                         </div>
                     ))}
             </div>

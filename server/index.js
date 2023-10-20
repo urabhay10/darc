@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express();
+const server=require('http').createServer(app)
 require('dotenv').config();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -7,8 +8,10 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors'); // Enable CORS for cross-origin requests
 const User = require('./models/User')
 const userRoutes = require('./routes/userRoute'); // Import the user router module
+const gameRoutes = require('./routes/gameRoutes'); // Import the game router module
 const passport = require('passport'); // Import Passport.js
 const session = require('express-session');// Import the authentication routes
+require('./socket')(server)
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,9 +31,7 @@ passport.deserializeUser(User.deserializeUser());
 mongoose.connect('mongodb://127.0.0.1:27017/darcdb')
 
 app.use('/users', userRoutes);
-app.get('/show',(req,res)=>{
-    res.send('<body>Hey</body>')
-})
+app.use('/game',gameRoutes)
 
 app.use((error, req, res, next) => {
     console.error('Error:', error);
@@ -39,6 +40,6 @@ app.use((error, req, res, next) => {
 
 const port = 8000;
 
-app.listen(port, ()=>{
+server.listen(port, ()=>{
     console.log(`The server is running at ${port}`)
 })

@@ -5,11 +5,8 @@ export default class ChatBox extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            chats: [],
-        };
-    }
-    sendtext = () => {
 
+        };
     }
     render() {
         return (
@@ -30,9 +27,11 @@ export default class ChatBox extends Component {
                     flexDirection: 'column',
                     flexWrap: 'wrap',
                     alignItems: 'flex-start',
+                    overflowY: 'auto',
+                    overflowX: 'hidden'
                 }}>
-                    {this.state.chats.map((chat) => (
-                        <div className="received-chat" key={this.state.chats.indexOf(chat)}>
+                    {this.props.chats.map((chat) => (
+                        <div className="received-chat" key={this.props.chats.indexOf(chat)}>
                             <ChatContainer text={chat} />
                         </div>
                     ))}
@@ -42,22 +41,33 @@ export default class ChatBox extends Component {
                     bottom: '0',
                     height: '20px',
                 }}>
-                    <input type="text" name="textcontent" id="textcontent" style={{
-                        position: 'relative',
-                        left: '3px',
-                        width: '290px',
-                        backgroundColor: 'rgb(129, 126, 152)',
-                        border: '1px solid black',
-                        borderRadius: '3%',
-                        bottom: '3px',
-                    }} />
-                    <button onClick={() => { this.sendtext() }} id="sendbutton" style={{
-                        backgroundColor: 'rgb(129, 126, 152)',
-                        border: '1px solid black',
-                        width: '55px',
-                        position: 'relative',
-                        bottom: '3px',
-                    }}>Send</button>
+                    <input
+                        type="text"
+                        name="textcontent"
+                        id="textcontent"
+                        value={this.props.textcontent}
+                        onChange={this.props.handleTextChange}
+                        style={{
+                            position: 'relative',
+                            left: '3px',
+                            width: '290px',
+                            backgroundColor: 'rgb(129, 126, 152)',
+                            border: '1px solid black',
+                            borderRadius: '3%',
+                            bottom: '3px',
+                        }} />
+                    <button
+                        onClick={() => {
+                            this.props.sendText();
+                        }}
+                        id="sendbutton"
+                        style={{
+                            backgroundColor: 'rgb(129, 126, 152)',
+                            border: '1px solid black',
+                            width: '55px',
+                            position: 'relative',
+                            bottom: '3px',
+                        }}>Send</button>
                 </div>
             </div >
         )

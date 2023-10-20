@@ -5,7 +5,7 @@ export default class OpponentTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      opponentTable: [{}, {}, {}, {}, {}]
+      
     };
   }
   render() {
@@ -18,9 +18,9 @@ export default class OpponentTable extends Component {
         justifyContent: 'space-around',
         alignItems: 'center',
       }}>
-        {this.state.opponentTable.map((card) => (
-          <div className="card" key={this.state.opponentTable.indexOf(card)}>
-            <Card placeholder text='queen'/>
+        {this.props.opponentTable.map((card) => (
+          <div className="card" key={this.props.opponentTable.indexOf(card)}>
+            <Card placeholder={card.placeholder} text={card.placetype}/>
           </div>
         ))}
       </div>

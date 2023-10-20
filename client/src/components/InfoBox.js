@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 
 export default class InfoBox extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pickedcard: this.props.pickedcard,
+    };
+  }
   render() {
     return (
       <div style={{
@@ -31,16 +37,13 @@ export default class InfoBox extends Component {
           </div>
           <div style={{
             backgroundColor: 'blanchedalmond'
-          }}>Select a card to view it's name</div>
+          }}>{this.props.pickedcard.name===undefined?`Select a card to view it's name`:`${this.props.pickedcard.name}`}</div>
           <div style={{
             backgroundColor: 'burlywood'
-          }}>Select a card to view it's abilities</div>
+          }}>{this.props.pickedcard.abilitytext===undefined?`Select a card to view it's abilities`:`${this.props.pickedcard.abilitytext}`}</div>
           <div style={{
             backgroundColor: 'darkgoldenrod'
-          }}>Select a card to view it's strength</div>
-          <div style={{
-            backgroundColor: 'cornsilk'
-          }}>Select a card to view it's restriction</div>
+          }}>{this.props.pickedcard.strength===undefined?`Select a card to view it's strength`:`${this.props.pickedcard.strength}`}</div>
           <div style={{
             position: 'relative',
             top: '16px',
