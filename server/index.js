@@ -31,7 +31,7 @@ passport.deserializeUser(User.deserializeUser());
 mongoose.connect('mongodb://127.0.0.1:27017/darcdb')
 
 app.use('/users', userRoutes);
-app.use('/game',gameRoutes)
+app.use('/game',gameRoutes);
 
 app.use((error, req, res, next) => {
     console.error('Error:', error);

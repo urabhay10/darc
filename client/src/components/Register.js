@@ -71,6 +71,7 @@ class Register extends Component {
               value={this.state.username}
               onChange={this.handleChange}
               required
+              autoFocus
             />
           </div>
           <div className="form-group mt-3">

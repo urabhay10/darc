@@ -70,6 +70,7 @@ class Login extends Component {
               onChange={this.handleChange}
               required
               placeholder='...'
+              autoFocus
             />
           </div>
           <div className="form-group mt-3">

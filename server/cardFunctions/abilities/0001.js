@@ -1,5 +1,6 @@
 const ability = (gamestate, id) => {
     let card = null;
+    let role;
     //checking in host
     for (let i = 0; i < gamestate.table.host.length; i++) {
         const element = gamestate.table.host[i];
@@ -7,11 +8,11 @@ const ability = (gamestate, id) => {
             //finding the card
             card = element;
             role = 'host';
-            let newqueenid;
+            let newqueenid=null;
             //finding available id
             for (let j = 1; j < 100; j++) {
                 const createdid = 'f' + j;
-                let canuseid;
+                let canuseid=true;
                 for (let k = 0; k < gamestate.table.host.length; k++) {
                     if (createdid === gamestate.table.host[k].id) {
                         canuseid = false;
@@ -19,6 +20,7 @@ const ability = (gamestate, id) => {
                 }
                 if (canuseid) {
                     newqueenid = createdid;
+                    break;
                 }
             }
             //adding the queen
@@ -41,11 +43,11 @@ const ability = (gamestate, id) => {
             //finding the card
             card = element;
             role = 'guest';
-            let newqueenid;
+            let newqueenid=null;
             //finding available id
             for (let j = 1; j < 100; j++) {
-                const createdid = 'f' + j;
-                let canuseid;
+                const createdid = 'o' + j;
+                let canuseid=true;
                 for (let k = 0; k < gamestate.table.guest.length; k++) {
                     if (createdid === gamestate.table.guest[k].id) {
                         canuseid = false;
@@ -53,6 +55,7 @@ const ability = (gamestate, id) => {
                 }
                 if (canuseid) {
                     newqueenid = createdid;
+                    break;
                 }
             }
             //adding the queen

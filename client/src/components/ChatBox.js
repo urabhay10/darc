@@ -43,6 +43,7 @@ export default class ChatBox extends Component {
                 }}>
                     <input
                         type="text"
+                        placeholder='Send text to your opponent'
                         name="textcontent"
                         id="textcontent"
                         value={this.props.textcontent}

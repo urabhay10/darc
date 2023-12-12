@@ -3,7 +3,7 @@ body{
     background-size: cover;
 }
 
-.create-room, .matchmake{
+.create-room,.join-room, .matchmake{
     border-radius: 4%;
     border: 4px solid black;
     background-color: purple;
@@ -16,7 +16,7 @@ body{
     color: white;
 }
 
-.create-room:hover, .matchmake:hover{
+.create-room:hover,.join-room:hover, .matchmake:hover{
     border: 4px solid white;
     color: white;
 }

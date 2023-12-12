@@ -4,9 +4,7 @@ export default class Location extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      opponentheight: this.props.opponentstrength+'%',
-      yourheight: this.props.yourstrength+'%',
-      emptyspaceheight: (100-this.props.yourstrength-this.props.opponentstrength)+'%'
+
     };
   }
   render() {
@@ -30,17 +28,19 @@ export default class Location extends Component {
           Occupy half of this area to win
         </div>
         <div style={{
-          height: this.state.opponentheight,
-          backgroundColor:'#ff5757'
-        }}></div>
+          height: this.props.opponentstrength + "%",
+          backgroundColor: '#ff5757'
+        }}
+          title={this.props.opponentstrength + "%"}></div>
         <div style={{
-          height: this.state.emptyspaceheight,
+          height: (100 - this.props.yourstrength - this.props.opponentstrength) + '%',
           visibility: 'hidden'
         }}></div>
         <div style={{
-          height: this.state.yourheight,
-          backgroundColor:'#ff66c4',
-        }}></div>
+          height: this.props.yourstrength + "%",
+          backgroundColor: '#ff66c4',
+        }}
+          title={this.props.yourstrength + "%"}></div>
       </div>
     )
   }

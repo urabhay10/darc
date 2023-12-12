@@ -20,7 +20,7 @@ export default class OpponentTable extends Component {
       }}>
         {this.props.opponentTable.map((card) => (
           <div className="card" key={this.props.opponentTable.indexOf(card)}>
-            <Card placeholder={card.placeholder} text={card.placetype}/>
+            <Card placeholder={card.placeholder} text={card.name?card.name:card.placetype} cardid={card.cardid}/>
           </div>
         ))}
       </div>

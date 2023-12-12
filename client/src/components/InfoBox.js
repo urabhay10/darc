@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class InfoBox extends Component {
+export default class  InfoBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,13 +37,13 @@ export default class InfoBox extends Component {
           </div>
           <div style={{
             backgroundColor: 'blanchedalmond'
-          }}>{this.props.pickedcard.name===undefined?`Select a card to view it's name`:`${this.props.pickedcard.name}`}</div>
+          }}>{this.props.pickedcard.name === undefined  ? `Select a card to view it's name` : `${this.props.pickedcard.name}`}</div>
           <div style={{
             backgroundColor: 'burlywood'
-          }}>{this.props.pickedcard.abilitytext===undefined?`Select a card to view it's abilities`:`${this.props.pickedcard.abilitytext}`}</div>
+          }}>{this.props.pickedcard.abilitytext === undefined ? `Select a card to view it's abilities` : `${this.props.pickedcard.abilitytext}`}</div>
           <div style={{
             backgroundColor: 'darkgoldenrod'
-          }}>{this.props.pickedcard.strength===undefined?`Select a card to view it's strength`:`${this.props.pickedcard.strength}`}</div>
+          }}>{this.props.pickedcard.strength === undefined ? `Select a card to view it's strength` : `${this.props.pickedcard.strength}`}</div>
           <div style={{
             position: 'relative',
             top: '16px',
@@ -55,7 +55,18 @@ export default class InfoBox extends Component {
             alignSelf: 'center',
             boxShadow: '0px 0px 10px green',
             border: '1px solid green',
-          }}>Place to let you know what's going on</div>
+          }}>{this.props.log}</div>
+
+          {this.props.timer>=0 && this.props.timer!==null ? <div style={{
+            backgroundColor: 'lightblue',
+            height: '40px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            bottom: '0px',
+            position: 'absolute',
+            width: '340px'
+          }}>Time remaining: {this.props.timer} seconds</div> :<></>}
         </div>
       </div>
     )

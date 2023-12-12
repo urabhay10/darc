@@ -1,23 +1,21 @@
 import React, { Component } from 'react'
 
 export default class Card extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          height: this.props.height?this.props.height*48:48,
-          width: this.props.width?this.props.width*32:32,
-          color: this.props.placeholder?'pink':'#ffde59',
-          border: this.props.placeholder?'1px dotted black':'none',
-        };
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
   render() {
     return (
       <div style={{
-        width: this.state.width+'px',
-        height: this.state.height+'px',
-        backgroundColor: this.state.color,
-        border: this.state.border,
-        fontSize: '10px',
+        width: this.props.width ? this.props.width * 32 : 32 + 'px',
+        height: this.props.height ? this.props.height * 48 : 48 + 'px',
+        backgroundColor: this.props.color ? this.props.color: this.props.placeholder ? 'pink' : this.props.cardid === '0001' ? '#FFD700' : ' #FF0000',
+        border: this.props.placeholder ? '1px dotted black' : 'none',
+        fontSize: this.props.fontSize? this.props.fontSize*10+'px':'10px',
+        color: this.props.textColor ? this.props.textColor : 'black',
       }}>
         {this.props.text}
       </div>

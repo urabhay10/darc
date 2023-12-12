@@ -34,11 +34,11 @@ class Join extends Component {
       if (!roomData.Room) {
         throw new Error('Failed to fetch user data');
       }
-      this.setState({
-        room: roomData.Room,
-      });
-      localStorage.setItem('roomid',this.state.room.roomid)
-      console.log('redirecting with roomid..',localStorage.getItem('roomid'))
+      // this.setState({
+      //   room: roomData.Room,
+      // });
+      localStorage.setItem('roomid', roomData.Room.roomid)
+      console.log('redirecting with roomid..', localStorage.getItem('roomid'))
       this.setState({ redirect: true })
     } catch (error) {
 
@@ -47,23 +47,62 @@ class Join extends Component {
 
   render() {
     if (this.state.redirect === true) {
-      const data = this.state.room
-      return <Navigate to='/play' state={{ data }} />;
+      return <Navigate to='/play' />;
     } else {
       return (
-        <div>
-          <h2>Join a Room</h2>
+        <div
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              this.handleJoinRoom();
+            }
+          }}
+          style={{
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'linear-gradient(135deg, #cc00ff, #aa00ff)',
+          }}
+        >
+          <h2 style={{ color: 'black' }}>Join a Room</h2>
           <div>
-            <label>Room Code:</label>
+            <label style={{ color: 'black' }}>Room Code:</label>
             <input
               type="text"
               value={this.state.roomCode}
               onChange={this.handleChange}
+              style={{
+                width: '200px',
+                padding: '8px',
+                borderRadius: '4px',
+                border: '1px solid black',
+                background: 'white',
+                color: 'black',
+              }}
+              autoFocus
             />
           </div>
-          <button onClick={this.handleJoinRoom}>Join Room</button>
+          <button
+            onClick={() => {
+              this.handleJoinRoom();
+            }}
+            style={{
+              padding: '10px 20px',
+              marginTop: '10px',
+              background: 'black',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+            }}
+          >
+            Join Room
+          </button>
         </div>
       );
+      
     }
   }
 }

@@ -16,7 +16,7 @@ export default class Interface extends Component {
         };
     }
     render() {
-        if (!this.props.room.roomid) {
+        if (!this.props?.room?.players?.names[1]) {
             return (
                 <>
                     <div style={{
@@ -34,7 +34,7 @@ export default class Interface extends Component {
                     }}>
                         <OpponentTable opponentTable={[]} />
                         <Location yourstrength={0} opponentstrength={0} />
-                        <YourTable yourTable={[]} />
+                        <YourTable yourTable={[]}/>
                         <div>
                             <GameSettings />
                             <Draw />
@@ -60,7 +60,6 @@ export default class Interface extends Component {
                 </>
             )
         } else {
-            console.log(this.props.room)
             return (
                 <>
                     <div style={{
@@ -78,13 +77,13 @@ export default class Interface extends Component {
                     }}>
                         <OpponentTable opponentTable={this.props.room.players.names[0] === this.props.username ? this.props.room.gamestate.table.guest : this.props.room.gamestate.table.host} />
                         <Location yourstrength={this.props.room.players.names[0] === this.props.username ? this.props.room.gamestate.location.host.strength : this.props.room.gamestate.location.guest.strength} opponentstrength={this.props.room.players.names[0] === this.props.username ? this.props.room.gamestate.location.guest.strength : this.props.room.gamestate.location.host.strength} />
-                        <YourTable yourTable={this.props.room.players.names[0] !== this.props.username ? this.props.room.gamestate.table.guest : this.props.room.gamestate.table.host} />
+                        <YourTable  placecard={this.props.placecard} room={this.props.room} yourTable={this.props.room.players.names[0] !== this.props.username ? this.props.room.gamestate.table.guest : this.props.room.gamestate.table.host} pickedcard={this.props.pickedcard} />
                         <div>
                             <GameSettings />
                             <Draw />
                         </div>
                         <You username={this.props.username} />
-                        <Hand hand={this.props.room.players.names[0] === this.props.username ? this.props.room.gamestate.hand.host : this.props.room.gamestate.hand.guest} pickcard={this.props.pickcard} />
+                        <Hand hand={this.props.room.players.names[0] === this.props.username ? this.props.room.gamestate.hand.host : this.props.room.gamestate.hand.guest} pickcard={this.props.pickcard} pickedcard={this.props.pickedcard}/>
                         <Opponent username={this.props.opponentname} />
                     </div>
                 </>
