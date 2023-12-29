@@ -4,6 +4,7 @@ import Interface from './Interface'
 import ChatBox from './ChatBox'
 import GameBG from './assets/DARC.png'
 import io from 'socket.io-client'
+import { Navigate } from 'react-router-dom'
 
 export default class Game extends Component {
     constructor(props) {
@@ -16,7 +17,8 @@ export default class Game extends Component {
             username: null,
             opponentname: null,
             timer: null,
-            log: `Place to let you know what's going on`
+            log: `Place to let you know what's going on`,
+            redirect: false
         };
     }
     establishSocketConnection() {
@@ -77,19 +79,19 @@ export default class Game extends Component {
             if (!data.room || !data.temproom) {
                 throw new Error('Failed to fetch room data')
             }
-            console.log('This is states of room returned:',data.temproom,data.room)
+            console.log('This is states of room returned:', data.temproom, data.room)
             this.setState({
                 room: data.temproom,
                 log: `Cards placed this turn`
             })
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.setState({
                     room: data.room,
                     log: `Turn 1 ended`
                 })
-                const {opponentname}= this.state
-                this.socket.emit('start-turn2',{opponentname});
-            },2000)
+                const { opponentname } = this.state
+                this.socket.emit('start-turn2', { opponentname });
+            }, 2000)
             console.log(data.room)
         })
         this.socket.on('end-turn2', async () => {
@@ -107,19 +109,19 @@ export default class Game extends Component {
             if (!data.room || !data.temproom) {
                 throw new Error('Failed to fetch room data')
             }
-            console.log('This is states of room returned:',data.temproom,data.room)
+            console.log('This is states of room returned:', data.temproom, data.room)
             this.setState({
                 room: data.temproom,
                 log: `Cards placed this turn`
             })
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.setState({
                     room: data.room,
                     log: `Turn 2 ended`
                 })
-                const {opponentname}= this.state
-                this.socket.emit('start-turn3',{opponentname});
-            },2000)
+                const { opponentname } = this.state
+                this.socket.emit('start-turn3', { opponentname });
+            }, 2000)
             console.log(data.room)
         })
         this.socket.on('end-turn3', async () => {
@@ -137,19 +139,19 @@ export default class Game extends Component {
             if (!data.room || !data.temproom) {
                 throw new Error('Failed to fetch room data')
             }
-            console.log('This is states of room returned:',data.temproom,data.room)
+            console.log('This is states of room returned:', data.temproom, data.room)
             this.setState({
                 room: data.temproom,
                 log: `Cards placed this turn`
             })
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.setState({
                     room: data.room,
                     log: `Turn 3 ended`
                 })
-                const {opponentname}= this.state
-                this.socket.emit('start-turn4',{opponentname});
-            },2000)
+                const { opponentname } = this.state
+                this.socket.emit('start-turn4', { opponentname });
+            }, 2000)
             console.log(data.room)
         })
         this.socket.on('end-turn4', async () => {
@@ -167,17 +169,17 @@ export default class Game extends Component {
             if (!data.room || !data.temproom) {
                 throw new Error('Failed to fetch room data')
             }
-            console.log('This is states of room returned:',data.temproom,data.room)
+            console.log('This is states of room returned:', data.temproom, data.room)
             this.setState({
                 room: data.temproom,
                 log: `Cards placed this turn`
             })
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.setState({
                     room: data.room,
                     log: `Turn 4 ended`
                 })
-            },2000)
+            }, 2000)
             console.log(data.room)
         })
         this.socket.on('end-game', async () => {
@@ -196,8 +198,13 @@ export default class Game extends Component {
                 throw new Error('Failed to fetch winnername')
             }
             this.setState({
-                log: data.winnername!=='no one'?`The winner is ${data.winnername}`:`Its a tie`
+                log: data.winnername !== 'no one' ? `The winner is ${data.winnername}` : `Its a tie`
             })
+            setTimeout(() => {
+                this.setState({
+                    redirect: true,
+                })
+            }, 5000);
         })
     }
     async componentDidMount() {
@@ -381,22 +388,26 @@ export default class Game extends Component {
         }, 1000);
     }
     render() {
-        return (
-            <>
-                <img src={GameBG} alt='' style={{ position: 'fixed', width: '100vw', top: '0', height: '100vh' }} />
-                <div
-                    style={{
-                        position: 'absolute',
-                        width: '100vw',
-                        height: '100vh',
-                    }}
-                    onKeyDown={this.handleKeyDown}
-                >
-                    <InfoBox pickedcard={this.state.pickedcard} timer={this.state.timer} log={this.state.log} />
-                    <Interface room={this.state.room} placecard={this.placecard} pickedcard={this.state.pickedcard} pickcard={this.pickcard} username={this.state.username} opponentname={this.state.opponentname} />
-                    <ChatBox sendText={this.sendText} textcontent={this.state.textcontent} chats={this.state.chats} handleTextChange={this.handleTextChange} />
-                </div>
-            </>
-        )
+        if (this.state.redirect) {
+            return <Navigate to='/profile' />;
+        } else {
+            return (
+                <>
+                    <img src={GameBG} alt='' style={{ position: 'fixed', width: '100vw', top: '0', height: '100vh' }} />
+                    <div
+                        style={{
+                            position: 'absolute',
+                            width: '100vw',
+                            height: '100vh',
+                        }}
+                        onKeyDown={this.handleKeyDown}
+                    >
+                        <InfoBox pickedcard={this.state.pickedcard} timer={this.state.timer} log={this.state.log} />
+                        <Interface room={this.state.room} placecard={this.placecard} pickedcard={this.state.pickedcard} pickcard={this.pickcard} username={this.state.username} opponentname={this.state.opponentname} />
+                        <ChatBox sendText={this.sendText} textcontent={this.state.textcontent} chats={this.state.chats} handleTextChange={this.handleTextChange} />
+                    </div>
+                </>
+            )
+        }
     }
 }

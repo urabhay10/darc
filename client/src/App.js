@@ -8,6 +8,7 @@ import Game from './components/Game';
 import Join from './components/Join';
 import Learn from './components/Learn';
 import Tut1 from './components/tutorials/Tut1';
+import Settings from './components/Settings';
 
 export default class App extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ export default class App extends Component {
             <Route exact path='/join' element={<Join />} />
             <Route exact path='/learn' element={<Learn />} />
             <Route exact path='/tut' element={<Tut1 />} />
+            <Route exact path='/settings' element={<Settings/>} />
           </Routes>
         </Router>
       </div>

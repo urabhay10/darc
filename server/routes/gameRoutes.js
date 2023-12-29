@@ -90,37 +90,30 @@ function generateRandomRoomCode() {
 function updateStrength(gamestate) {
     console.log(gamestate);
     // if (gamestate && gamestate.location && gamestate.location.host && gamestate.location.host.strength && gamestate.table && gamestate.table.host) {
-        gamestate.location.host.strength = 0;
-        gamestate.location.guest.strength = 0;
-        for (let i = 0; i < gamestate.table.host.length; i++) {
-            const element = gamestate.table.host[i];
-            if (element.placeholder === false) {
+    gamestate.location.host.strength = 0;
+    gamestate.location.guest.strength = 0;
+    for (let i = 0; i < gamestate.table.host.length; i++) {
+        const element = gamestate.table.host[i];
+        if (element.placeholder === false) {
+            gamestate.location.host.strength += element.strength;
+            if (element.placetype === 'king') {
                 gamestate.location.host.strength += element.strength;
-                if (element.placetype === 'king') {
-                    gamestate.location.host.strength += element.strength;
-                }
             }
         }
-        for (let i = 0; i < gamestate.table.guest.length; i++) {
-            const element = gamestate.table.guest[i];
-            if (element.placeholder === false) {
+    }
+    for (let i = 0; i < gamestate.table.guest.length; i++) {
+        const element = gamestate.table.guest[i];
+        if (element.placeholder === false) {
+            gamestate.location.guest.strength += element.strength;
+            if (element.placetype === 'king') {
                 gamestate.location.guest.strength += element.strength;
-                if (element.placetype === 'king') {
-                    gamestate.location.guest.strength += element.strength;
-                }
             }
         }
+    }
     // }
     return gamestate;
 
 }
-
-router.get('/updatetest', async (req, res) => {
-    const room_db = await Room.findOne({ roomid: "C08AGD" });
-    room_db.gamestate = await updateStrength(room_db.gamestate);
-    await room_db.save();
-    res.json({ room: room_db })
-})
 
 //returns true or false depending on whose table has this card with the given id
 function belongsToHost(gamestate, id) {
@@ -296,15 +289,26 @@ router.post('/end-turn', async (req, res) => {
     const temproom = room_db;
     console.log('this is the temproom', temproom.gamestate.table.host)
     //if any one of the players has already executed the abilities, it should not apply ability again
-    if (id1 !== undefined && id2 !== undefined) {
-        room_db.gamestate = await returnCard(room_db.gamestate, id1)?.ability(room_db.gamestate, id1);
-        room_db.gamestate = await returnCard(room_db.gamestate, id2)?.ability(room_db.gamestate, id2);
+    if (id1 !== undefined) {
+        const card1 = returnCard(room_db.gamestate, id1);
+        if (card1) {
+            console.log('host played a card')
+            room_db.gamestate = await card1.ability(room_db.gamestate, id1);
+        }
         room_db.gamestate = await updateStrength(room_db.gamestate);
-        executeIds.host.delete(room.roomid)
-        executeIds.guest.delete(room.roomid)
-        await room_db.save();
     }
-    res.json({ room: room_db, temproom: temproom })
+    if (id2 !== undefined) {
+        const card2 = returnCard(room_db.gamestate, id2);
+        if (card2) {
+            console.log('guest played a card')
+            room_db.gamestate = await card2.ability(room_db.gamestate, id2);
+        }
+        room_db.gamestate = await updateStrength(room_db.gamestate);
+    }
+    executeIds.host.delete(room.roomid);
+    executeIds.guest.delete(room.roomid);
+    await room_db.save();
+    res.json({ room: room_db, temproom: temproom });
 })
 
 router.post('/end-game', async (req, res) => {

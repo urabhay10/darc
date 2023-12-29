@@ -57,7 +57,7 @@ export default class  InfoBox extends Component {
             border: '1px solid green',
           }}>{this.props.log}</div>
 
-          {this.props.timer>=0 && this.props.timer!==null ? <div style={{
+          {this.props.timer>0 && this.props.timer!==null ? <div style={{
             backgroundColor: 'lightblue',
             height: '40px',
             display: 'flex',

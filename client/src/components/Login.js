@@ -55,7 +55,7 @@ class Login extends Component {
       return <Navigate to="/profile" />;
     }
     return (
-      <div className="container d-flex justify-content-center align-items-center flex-column" style={{ background: 'linear-gradient(135deg, #cc00ff, #aa00ff)', width: '100vw', height: '100vh' }}>
+      <div className="container d-flex justify-content-center align-items-center flex-column" style={{ background: 'linear-gradient(135deg, #ff6b6b, #3a1c71)', width: '100vw', height: '100vh' }}>
         <h2 className="mt-4">Login</h2>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group mt-3">

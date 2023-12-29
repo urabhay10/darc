@@ -58,6 +58,8 @@ export default class profile extends Component {
       return <Navigate to='/play' />
     } else if (this.state.redirect_to === 'join') {
       return <Navigate to='/join' />
+    }else if(this.state.redirect_to === 'settings'){
+      return <Navigate to='/settings' />
     }
     if (isLoading) {
       return (
@@ -148,7 +150,26 @@ export default class profile extends Component {
                 <img src={this.state.crowdicon} alt='' style={{ height: '90%', padding: '6px' }} />
                 Matchmake
               </button>
-              <button className="profile-options" style={{ top: '40px', position: 'relative' }}><img src="https://cdn-icons-png.flaticon.com/512/126/126472.png" alt="" style={{ height: '90%', position: 'relative', right: '10px', padding: '3px' }} /> Settings</button>
+              <button
+                className="profile-options"
+                title={`Settings`}
+                onClick={() => {
+                  this.setState({
+                    redirect_to: 'settings'
+                  })
+                }}
+                style={{
+                  top: '40px', position: 'relative'
+                }}>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/126/126472.png"
+                  alt="" style={{
+                    height: '90%',
+                    position: 'relative',
+                    right: '10px',
+                    padding: '3px'
+                  }}
+                /> Settings</button>
             </div>
           </div>
           <div style={{ height: '70vh', top: '15vh', position: 'fixed', width: '70vw', right: '4.5vw', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
